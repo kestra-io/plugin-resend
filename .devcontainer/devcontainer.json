@@ -1,10 +1,10 @@
 {
-  "name": "plugin-template",
+  "name": "plugin-resend",
   "build": {
     "context": ".",
     "dockerfile": "Dockerfile"
   },
-  "workspaceFolder": "/workspaces/plugin-template",
+  "workspaceFolder": "/workspaces/plugin-resend",
   "forwardPorts": [8080],
   "customizations": {
     "vscode": {
