@@ -54,6 +54,32 @@ import static io.kestra.core.utils.Rethrow.throwFunction;
                     html: "<h1>Hello</h1>"
                     apiKey: "{{ secret('RESEND_API_KEY') }}"
                 """
+        ),
+        @Example(
+            full = true,
+            title = "Send an email with attachment.",
+            code = """
+                id: send_email_with_attachment
+                namespace: company.team
+
+                inputs:
+                  - id: user_file
+                    type: FILE
+
+                tasks:
+                  - id: send_email
+                    type: io.kestra.plugin.resend.email.Send
+                    from: "user@example.com"
+                    to:
+                      - "recipient@example.com"
+                    subject: "Welcome with attachment!"
+                    html: "<h1>Hello</h1><p>Here’s your file.</p>"
+                    attachments:
+                      - name: "test.pdf"
+                        uri: "{{ inputs.user_file }}"
+                        contentType: "application/pdf"
+                    apiKey: "{{ secret('RESEND_API_KEY') }}"
+                """
         )
     }
 )
