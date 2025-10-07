@@ -32,7 +32,7 @@ import static io.kestra.core.utils.Rethrow.throwFunction;
 @Getter
 @NoArgsConstructor
 @Schema(
-    title = "Send Email",
+    title = "Send an email with Resend.",
     description = "Send an email using the Resend API. Supports To, CC, BCC, Reply-To, scheduled sending, attachments, headers, and tags."
 )
 @Plugin(
@@ -85,89 +85,89 @@ import static io.kestra.core.utils.Rethrow.throwFunction;
 )
 public class Send extends Task implements RunnableTask<Send.Output> {
     @Schema(
-        title = "Resend API key."
+        title = "Resend API key"
     )
     @NotNull
     private Property<String> apiKey;
 
     @Schema(
         title = "From",
-        description = "Sender email address. Must be a verified domain in Resend."
+        description = "Sender email address – must be a verified domain in Resend."
     )
     @NotNull
     private Property<String> from;
 
     @Schema(
         title = "To",
-        description = "Recipient(s). A single string or a list of addresses."
+        description = "Recipient(s) – a single string or a list of addresses."
     )
     @NotNull
     private Property<List<String>> to;
 
     @Schema(
         title = "Subject",
-        description = "The subject line of the email."
+        description = "The subject line of the email"
     )
     @NotNull
     private Property<String> subject;
 
     @Schema(
         title = "CC",
-        description = "Optional CC recipients."
+        description = "Optional CC recipients"
     )
     private Property<List<String>> cc;
 
     @Schema(
         title = "BCC",
-        description = "Optional BCC recipients."
+        description = "Optional BCC recipients"
     )
     private Property<List<String>> bcc;
 
     @Schema(
         title = "Reply-To",
-        description = "Optional Reply-To addresses."
+        description = "Optional Reply-To addresses"
     )
     private Property<List<String>> replyTo;
 
     @Schema(
         title = "HTML Body",
-        description = "HTML content of the email."
+        description = "HTML content of the email"
     )
     private Property<String> html;
 
     @Schema(
         title = "Text Body",
-        description = "Plain text content of the email."
+        description = "Plain text content of the email"
     )
     private Property<String> text;
 
     @Schema(
         title = "Headers",
-        description = "Custom headers as key/value pairs."
+        description = "Custom headers as key/value pairs"
     )
     private Property<Map<String, String>> headers;
 
     @Schema(
         title = "Idempotency Key",
-        description = "Optional unique key to avoid duplicate sends."
+        description = "Optional unique key to avoid duplicate sends"
     )
     private Property<String> idempotencyKey;
 
     @Schema(
         title = "Scheduled At",
-        description = "The schedule of the email in ISO 8601 format (e.g., 2024-08-05T11:52:01.858Z)."
+        description = "The schedule of the email in ISO 8601 format (e.g., 2024-08-05T11:52:01.858Z)"
     )
     private Property<String> scheduledAt;
 
     @Schema(
         title = "Attachments",
-        description = "File attachments (filename, content, contentType, contentId)."
+        description = "File attachments (filename, content, contentType, contentId)"
     )
     private Property<List<Attachment>> attachments;
 
     @Schema(
         title = "Tags",
-        description = "Custom tags (name/value pairs) for tracking."
+        description = "Custom tags (name/value pairs) for tracking"
     )
     private Property<List<Tag>> tags;
 
@@ -253,7 +253,7 @@ public class Send extends Task implements RunnableTask<Send.Output> {
         private Property<String> path;
 
         @Schema(
-            title = "The name of the attachment (eg. 'filename.txt')"
+            title = "The name of the attachment (e.g., 'filename.txt')"
         )
         @NotNull
         private Property<String> name;

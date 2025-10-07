@@ -25,7 +25,7 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @Schema(
-    title = "Create Resend Domain",
+    title = "Create a Resend domain.",
     description = "Register a new sending domain in Resend."
 )
 @Plugin(
@@ -55,7 +55,7 @@ public class Create extends Task implements RunnableTask<Create.Output> {
 
     @Schema(
         title = "Domain name",
-        description = "The domain you want to register in Resend, e.g. `example.com`."
+        description = "The domain you want to register in Resend (e.g., `example.com`)"
     )
     @NotNull private Property<String> name;
 
@@ -67,7 +67,7 @@ public class Create extends Task implements RunnableTask<Create.Output> {
 
     @Schema(
         title = "Custom return path",
-        description = "Subdomain for the Return-Path address. Defaults to `send`. Avoid values like `test` as they may appear to recipients."
+        description = "Subdomain for the Return-Path address. Defaults to `send`. Avoid values like `test`, as they may appear to recipients."
     )
     private Property<String> customReturnPath;
 
@@ -99,7 +99,7 @@ public class Create extends Task implements RunnableTask<Create.Output> {
         @Schema(title = "Created Domain ID")
         private final String id;
 
-        @Schema(title = "Raw response from Resend.")
+        @Schema(title = "Raw response from Resend")
         private final Map<String, Object> result;
     }
 }
