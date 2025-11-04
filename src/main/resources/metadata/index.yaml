@@ -1,0 +1,8 @@
+group: io.kestra.plugin.resend
+name: "resend"
+title: "Resend"
+description: ""
+body: ""
+videos: []
+createdBy: "Kestra Core Team"
+managedBy: "Kestra Core Team"

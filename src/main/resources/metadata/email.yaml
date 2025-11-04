@@ -1,0 +1,8 @@
+group: io.kestra.plugin.resend.email
+name: "email"
+title: "Email"
+description: "Send and manage emails using the Resend API."
+body: ""
+videos: []
+createdBy: "Kestra Core Team"
+managedBy: "Kestra Core Team"
