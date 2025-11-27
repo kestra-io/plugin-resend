@@ -1,0 +1,8 @@
+group: io.kestra.plugin.resend.domain
+name: "domain"
+title: "Domain"
+description: "Manage and verify domains with the Resend API."
+body: ""
+videos: []
+createdBy: "Kestra Core Team"
+managedBy: "Kestra Core Team"
