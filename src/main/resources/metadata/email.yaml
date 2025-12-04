@@ -1,8 +1,8 @@
 group: io.kestra.plugin.resend.email
 name: "email"
 title: "Email"
-description: "Send and manage emails using the Resend API."
-body: ""
+description: "Tasks that send emails using the Resend API."
+body: "Set the Resend API key, sender, recipients, subject, and HTML/text content (plus optional tags and attachments) to deliver emails from Kestra workflows and capture message IDs/status."
 videos: []
 createdBy: "Kestra Core Team"
 managedBy: "Kestra Core Team"

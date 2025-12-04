@@ -1,8 +1,8 @@
 group: io.kestra.plugin.resend
 name: "resend"
 title: "Resend"
-description: "Plugin Resend for Kestra"
-body: ""
+description: "Tasks that manage domains and send email via the Resend API."
+body: "Provide your Resend API key to verify domains and send emails with from/to, subject, HTML/text bodies, and optional tags or attachments, returning API responses for deliverability tracking."
 videos: []
 createdBy: "Kestra Core Team"
 managedBy: "Kestra Core Team"
