@@ -1,7 +1,5 @@
 @PluginSubGroup(
-    description = "Manage and verify domains with the Resend API.",
-    categories = PluginSubGroup.PluginCategory.MESSAGING,
-    categories = {
+    description = "Manage and verify domains with the Resend API.",categories = {
         PluginSubGroup.PluginCategory.BUSINESS
     }
 )
