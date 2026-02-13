@@ -1,6 +1,7 @@
 @PluginSubGroup(
-    description = "Manage and verify domains with the Resend API.",
-    categories = PluginSubGroup.PluginCategory.MESSAGING
+    description = "Manage and verify domains with the Resend API.",categories = {
+        PluginSubGroup.PluginCategory.BUSINESS
+    }
 )
 package io.kestra.plugin.resend.domain;
 
