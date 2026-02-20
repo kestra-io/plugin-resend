@@ -25,8 +25,8 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @Schema(
-    title = "Create a Resend domain.",
-    description = "Register a new sending domain in Resend."
+    title = "Provision a Resend sending domain",
+    description = "Registers a sending domain in Resend with optional region (default `us-east-1`) and custom return path. Requires an API key; DNS verification remains pending until you publish the provided records."
 )
 @Plugin(
     examples = {
@@ -44,30 +44,47 @@ import java.util.Map;
                     name: "example.com"
                     region: "us-east-1"
                 """
+        ),
+        @Example(
+            full = true,
+            title = "Create a domain with custom return path",
+            code = """
+                id: create_domain_custom_return_path
+                namespace: company.team
+
+                tasks:
+                  - id: add_domain
+                    type: io.kestra.plugin.resend.domain.Create
+                    apiKey: "{{ secret('RESEND_API_KEY') }}"
+                    name: "example.org"
+                    region: "eu-west-1"
+                    customReturnPath: "mail"
+                """
         )
     }
 )
 public class Create extends Task implements RunnableTask<Create.Output> {
     @Schema(
-        title = "Resend API key"
+        title = "Resend API key",
+        description = "Secret Resend token used for authentication."
     )
     @NotNull private Property<String> apiKey;
 
     @Schema(
         title = "Domain name",
-        description = "The domain you want to register in Resend (e.g., `example.com`)"
+        description = "Domain to register in Resend (e.g., `example.com`)."
     )
     @NotNull private Property<String> name;
 
     @Schema(
         title = "Region",
-        description = "Region where emails will be sent from. Defaults to `us-east-1`."
+        description = "Sending region; defaults to `us-east-1` when not provided."
     )
     private Property<String> region;
 
     @Schema(
         title = "Custom return path",
-        description = "Subdomain for the Return-Path address. Defaults to `send`. Avoid values like `test`, as they may appear to recipients."
+        description = "Subdomain for the Return-Path address; defaults to `send`. Avoid values like `test`, as they may appear to recipients."
     )
     private Property<String> customReturnPath;
 
