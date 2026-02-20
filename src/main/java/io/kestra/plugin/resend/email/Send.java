@@ -32,8 +32,8 @@ import static io.kestra.core.utils.Rethrow.throwFunction;
 @Getter
 @NoArgsConstructor
 @Schema(
-    title = "Send an email with Resend.",
-    description = "Send an email using the Resend API. Supports To, CC, BCC, Reply-To, scheduled sending, attachments, headers, and tags."
+    title = "Send email via Resend API",
+    description = "Sends an email through Resend with To/CC/BCC, headers, tags, attachments from Kestra storage (`uri`) or remote URLs (`path`), and optional scheduled send time. Requires a verified sender domain and API key; all properties render with the flow context."
 )
 @Plugin(
     examples = {
@@ -80,33 +80,63 @@ import static io.kestra.core.utils.Rethrow.throwFunction;
                         contentType: "application/pdf"
                     apiKey: "{{ secret('RESEND_API_KEY') }}"
                 """
+        ),
+        @Example(
+            full = true,
+            title = "Schedule email with tags and remote attachment",
+            code = """
+                id: send_email_scheduled
+                namespace: company.team
+
+                tasks:
+                  - id: send_email
+                    type: io.kestra.plugin.resend.email.Send
+                    from: "alerts@example.com"
+                    to:
+                      - "ops@example.com"
+                    subject: "Nightly report"
+                    text: "Report ready. See attached log."
+                    attachments:
+                      - name: "log.txt"
+                        path: "https://example.com/logs/today.txt"
+                    tags:
+                      - name: "env"
+                        value: "prod"
+                      - name: "type"
+                        value: "report"
+                    headers:
+                      X-Source: "kestra-flow"
+                    scheduledAt: "2024-08-05T11:52:01.858Z"
+                    apiKey: "{{ secret('RESEND_API_KEY') }}"
+                """
         )
     }
 )
 public class Send extends Task implements RunnableTask<Send.Output> {
     @Schema(
-        title = "Resend API key"
+        title = "Resend API key",
+        description = "Secret Resend token used for authentication."
     )
     @NotNull
     private Property<String> apiKey;
 
     @Schema(
-        title = "From",
-        description = "Sender email address – must be a verified domain in Resend."
+        title = "Sender",
+        description = "Sender email address that belongs to a verified domain in Resend."
     )
     @NotNull
     private Property<String> from;
 
     @Schema(
-        title = "To",
-        description = "Recipient(s) – a single string or a list of addresses."
+        title = "Recipients",
+        description = "Recipient addresses; accepts a string or list rendered from context."
     )
     @NotNull
     private Property<List<String>> to;
 
     @Schema(
         title = "Subject",
-        description = "The subject line of the email"
+        description = "Subject line required by Resend."
     )
     @NotNull
     private Property<String> subject;
@@ -125,43 +155,43 @@ public class Send extends Task implements RunnableTask<Send.Output> {
 
     @Schema(
         title = "Reply-To",
-        description = "Optional Reply-To addresses"
+        description = "Optional Reply-To addresses as a string or list."
     )
     private Property<List<String>> replyTo;
 
     @Schema(
         title = "HTML Body",
-        description = "HTML content of the email"
+        description = "HTML body; Resend requires either html or text to be provided."
     )
     private Property<String> html;
 
     @Schema(
         title = "Text Body",
-        description = "Plain text content of the email"
+        description = "Plain text body; Resend requires either text or html to be provided."
     )
     private Property<String> text;
 
     @Schema(
         title = "Headers",
-        description = "Custom headers as key/value pairs"
+        description = "Custom headers as string key/value pairs."
     )
     private Property<Map<String, String>> headers;
 
     @Schema(
         title = "Idempotency Key",
-        description = "Optional unique key to avoid duplicate sends"
+        description = "Optional idempotency key; currently not forwarded to Resend."
     )
     private Property<String> idempotencyKey;
 
     @Schema(
         title = "Scheduled At",
-        description = "The schedule of the email in ISO 8601 format (e.g., 2024-08-05T11:52:01.858Z)"
+        description = "ISO 8601 timestamp for scheduled send (e.g., 2024-08-05T11:52:01.858Z)."
     )
     private Property<String> scheduledAt;
 
     @Schema(
         title = "Attachments",
-        description = "File attachments (filename, content, contentType, contentId)"
+        description = "Attachments defined by name plus either `uri` (Kestra storage) or `path` (HTTP/HTTPS); optional contentType and contentId."
     )
     private Property<List<Attachment>> attachments;
 
@@ -242,26 +272,34 @@ public class Send extends Task implements RunnableTask<Send.Output> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Attachment {
         @Schema(
-            title = "An attachment URI from Kestra internal storage"
+            title = "Attachment from Kestra storage",
+            description = "Use a kestra:// URI; the file is read from internal storage and Base64 encoded."
         )
         private Property<String> uri;
 
         @Schema(
-            title = "A remote file URL (http/https) to attach",
-            description = "Use this for files available on the internet."
+            title = "Remote HTTP/HTTPS file URL",
+            description = "Resend downloads the file directly from the provided URL."
         )
         private Property<String> path;
 
         @Schema(
-            title = "The name of the attachment (e.g., 'filename.txt')"
+            title = "Attachment file name",
+            description = "Displayed filename, for example 'report.pdf'."
         )
         @NotNull
         private Property<String> name;
 
-        @Schema
+        @Schema(
+            title = "Content ID",
+            description = "CID used to reference the attachment inline in HTML (cid:...)."
+        )
         private Property<String> contentId;
 
-        @Schema
+        @Schema(
+            title = "MIME type",
+            description = "Optional MIME type override when not detected automatically."
+        )
         private Property<String> contentType;
     }
 
