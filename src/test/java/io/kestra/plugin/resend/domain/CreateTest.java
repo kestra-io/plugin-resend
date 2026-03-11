@@ -1,16 +1,19 @@
 package io.kestra.plugin.resend.domain;
 
+import java.time.Duration;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+
 import com.google.common.collect.ImmutableMap;
+
 import io.kestra.core.junit.annotations.KestraTest;
 import io.kestra.core.models.property.Property;
 import io.kestra.core.runners.RunContext;
 import io.kestra.core.runners.RunContextFactory;
-import jakarta.inject.Inject;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
-import java.time.Duration;
-import java.util.Map;
+import jakarta.inject.Inject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -23,20 +26,22 @@ public class CreateTest {
     private RunContextFactory runContextFactory;
 
     private RunContext getRunContext() {
-        return runContextFactory.of(Map.of(
-            "firstFailed", false,
-            "execution", ImmutableMap.of(
-                "id", "#aBcDeFgH",
-                "flowId", "resend-domain",
-                "namespace", "org.test",
-                "state", ImmutableMap.of("current", "SUCCESS")
-            ),
-            "duration", Duration.ofMillis(123456),
-            "flow", ImmutableMap.of("id", "resend-domain"),
-            "link", "http://todo.com",
-            "customFields", ImmutableMap.of("Env", "dev"),
-            "customMessage", "myCustomMessage"
-        ));
+        return runContextFactory.of(
+            Map.of(
+                "firstFailed", false,
+                "execution", ImmutableMap.of(
+                    "id", "#aBcDeFgH",
+                    "flowId", "resend-domain",
+                    "namespace", "org.test",
+                    "state", ImmutableMap.of("current", "SUCCESS")
+                ),
+                "duration", Duration.ofMillis(123456),
+                "flow", ImmutableMap.of("id", "resend-domain"),
+                "link", "http://todo.com",
+                "customFields", ImmutableMap.of("Env", "dev"),
+                "customMessage", "myCustomMessage"
+            )
+        );
     }
 
     @Test

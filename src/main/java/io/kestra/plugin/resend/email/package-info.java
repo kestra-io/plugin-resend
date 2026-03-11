@@ -1,5 +1,5 @@
 @PluginSubGroup(
-    description = "Send and manage emails using the Resend API.",categories = {
+    description = "Send and manage emails using the Resend API.", categories = {
         PluginSubGroup.PluginCategory.BUSINESS
     }
 )

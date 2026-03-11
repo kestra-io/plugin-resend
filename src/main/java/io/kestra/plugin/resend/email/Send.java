@@ -1,28 +1,30 @@
 package io.kestra.plugin.resend.email;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.resend.Resend;
-import com.resend.services.emails.model.CreateEmailOptions;
-import com.resend.services.emails.model.CreateEmailResponse;
-import com.resend.services.emails.model.Tag;
-import io.kestra.core.models.annotations.Plugin;
-import io.kestra.core.models.annotations.Example;
-import io.kestra.core.models.property.Property;
-import io.kestra.core.models.tasks.RunnableTask;
-import io.kestra.core.models.tasks.Task;
-import io.kestra.core.runners.RunContext;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-import lombok.extern.jackson.Jacksonized;
-
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.resend.Resend;
+import com.resend.services.emails.model.CreateEmailOptions;
+import com.resend.services.emails.model.CreateEmailResponse;
+import com.resend.services.emails.model.Tag;
+
+import io.kestra.core.models.annotations.Example;
+import io.kestra.core.models.annotations.Plugin;
+import io.kestra.core.models.property.Property;
+import io.kestra.core.models.tasks.RunnableTask;
+import io.kestra.core.models.tasks.Task;
+import io.kestra.core.runners.RunContext;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import static io.kestra.core.utils.Rethrow.throwFunction;
 
@@ -231,7 +233,8 @@ public class Send extends Task implements RunnableTask<Send.Output> {
 
     private List<com.resend.services.emails.model.Attachment> attachmentResources(List<Attachment> list, RunContext runContext) throws Exception {
         return list.stream()
-            .map(throwFunction(attachment -> {
+            .map(throwFunction(attachment ->
+            {
                 String rName = runContext.render(attachment.getName()).as(String.class).orElseThrow();
                 String rContentId = runContext.render(attachment.getContentId()).as(String.class).orElse(null);
                 String rContentType = runContext.render(attachment.getContentType()).as(String.class).orElse(null);
@@ -302,7 +305,6 @@ public class Send extends Task implements RunnableTask<Send.Output> {
         )
         private Property<String> contentType;
     }
-
 
     @Builder
     @Getter

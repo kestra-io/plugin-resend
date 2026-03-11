@@ -1,9 +1,12 @@
 package io.kestra.plugin.resend.domain;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.resend.Resend;
 import com.resend.services.domains.model.CreateDomainOptions;
 import com.resend.services.domains.model.CreateDomainResponse;
+
 import io.kestra.core.models.annotations.Example;
 import io.kestra.core.models.annotations.Plugin;
 import io.kestra.core.models.property.Property;
@@ -11,13 +14,11 @@ import io.kestra.core.models.tasks.RunnableTask;
 import io.kestra.core.models.tasks.Task;
 import io.kestra.core.runners.RunContext;
 import io.kestra.core.serializers.JacksonMapper;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
-import java.util.Map;
 
 @SuperBuilder
 @ToString
@@ -68,13 +69,15 @@ public class Create extends Task implements RunnableTask<Create.Output> {
         title = "Resend API key",
         description = "Secret Resend token used for authentication."
     )
-    @NotNull private Property<String> apiKey;
+    @NotNull
+    private Property<String> apiKey;
 
     @Schema(
         title = "Domain name",
         description = "Domain to register in Resend (e.g., `example.com`)."
     )
-    @NotNull private Property<String> name;
+    @NotNull
+    private Property<String> name;
 
     @Schema(
         title = "Region",
@@ -102,7 +105,8 @@ public class Create extends Task implements RunnableTask<Create.Output> {
 
         runContext.logger().info("Created Resend Domain: {}", response);
 
-        Map<String, Object> result = JacksonMapper.ofJson().convertValue(response, new TypeReference<>() {});
+        Map<String, Object> result = JacksonMapper.ofJson().convertValue(response, new TypeReference<>() {
+        });
 
         return Output.builder()
             .id(response.getId())
