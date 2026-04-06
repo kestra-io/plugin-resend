@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import io.kestra.core.models.annotations.PluginProperty;
 
 @SuperBuilder
 @ToString
@@ -70,6 +71,7 @@ public class Create extends Task implements RunnableTask<Create.Output> {
         description = "Secret Resend token used for authentication."
     )
     @NotNull
+    @PluginProperty(group = "main")
     private Property<String> apiKey;
 
     @Schema(
@@ -77,18 +79,21 @@ public class Create extends Task implements RunnableTask<Create.Output> {
         description = "Domain to register in Resend (e.g., `example.com`)."
     )
     @NotNull
+    @PluginProperty(group = "main")
     private Property<String> name;
 
     @Schema(
         title = "Region",
         description = "Sending region; defaults to `us-east-1` when not provided."
     )
+    @PluginProperty(group = "connection")
     private Property<String> region;
 
     @Schema(
         title = "Custom return path",
         description = "Subdomain for the Return-Path address; defaults to `send`. Avoid values like `test`, as they may appear to recipients."
     )
+    @PluginProperty(group = "destination")
     private Property<String> customReturnPath;
 
     @Override
