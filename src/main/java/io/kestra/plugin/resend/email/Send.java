@@ -27,6 +27,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 import static io.kestra.core.utils.Rethrow.throwFunction;
+import io.kestra.core.models.annotations.PluginProperty;
 
 @SuperBuilder
 @ToString
@@ -120,6 +121,7 @@ public class Send extends Task implements RunnableTask<Send.Output> {
         description = "Secret Resend token used for authentication."
     )
     @NotNull
+    @PluginProperty(group = "main")
     private Property<String> apiKey;
 
     @Schema(
@@ -127,6 +129,7 @@ public class Send extends Task implements RunnableTask<Send.Output> {
         description = "Sender email address that belongs to a verified domain in Resend."
     )
     @NotNull
+    @PluginProperty(group = "main")
     private Property<String> from;
 
     @Schema(
@@ -134,6 +137,7 @@ public class Send extends Task implements RunnableTask<Send.Output> {
         description = "Recipient addresses; accepts a string or list rendered from context."
     )
     @NotNull
+    @PluginProperty(group = "main")
     private Property<List<String>> to;
 
     @Schema(
@@ -141,66 +145,77 @@ public class Send extends Task implements RunnableTask<Send.Output> {
         description = "Subject line required by Resend."
     )
     @NotNull
+    @PluginProperty(group = "main")
     private Property<String> subject;
 
     @Schema(
         title = "CC",
         description = "Optional CC recipients"
     )
+    @PluginProperty(group = "advanced")
     private Property<List<String>> cc;
 
     @Schema(
         title = "BCC",
         description = "Optional BCC recipients"
     )
+    @PluginProperty(group = "advanced")
     private Property<List<String>> bcc;
 
     @Schema(
         title = "Reply-To",
         description = "Optional Reply-To addresses as a string or list."
     )
+    @PluginProperty(group = "destination")
     private Property<List<String>> replyTo;
 
     @Schema(
         title = "HTML Body",
         description = "HTML body; Resend requires either html or text to be provided."
     )
+    @PluginProperty(group = "advanced")
     private Property<String> html;
 
     @Schema(
         title = "Text Body",
         description = "Plain text body; Resend requires either text or html to be provided."
     )
+    @PluginProperty(group = "advanced")
     private Property<String> text;
 
     @Schema(
         title = "Headers",
         description = "Custom headers as string key/value pairs."
     )
+    @PluginProperty(group = "advanced")
     private Property<Map<String, String>> headers;
 
     @Schema(
         title = "Idempotency Key",
         description = "Optional idempotency key; currently not forwarded to Resend."
     )
+    @PluginProperty(group = "connection")
     private Property<String> idempotencyKey;
 
     @Schema(
         title = "Scheduled At",
         description = "ISO 8601 timestamp for scheduled send (e.g., 2024-08-05T11:52:01.858Z)."
     )
+    @PluginProperty(group = "advanced")
     private Property<String> scheduledAt;
 
     @Schema(
         title = "Attachments",
         description = "Attachments defined by name plus either `uri` (Kestra storage) or `path` (HTTP/HTTPS); optional contentType and contentId."
     )
+    @PluginProperty(group = "advanced")
     private Property<List<Attachment>> attachments;
 
     @Schema(
         title = "Tags",
         description = "Custom tags (name/value pairs) for tracking"
     )
+    @PluginProperty(group = "advanced")
     private Property<List<Tag>> tags;
 
     @Override
