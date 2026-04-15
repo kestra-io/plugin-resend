@@ -1,6 +1,6 @@
 group: io.kestra.plugin.resend.domain
 name: "domain"
-title: "Domain"
+title: "Resend Domain"
 description: "Tasks that manage and verify domains with the Resend API."
 body: "Use your Resend API key to add domains, retrieve verification records, and check domain status so you can enable sending from trusted domains."
 videos: []
