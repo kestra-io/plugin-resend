@@ -121,7 +121,7 @@ public class Send extends Task implements RunnableTask<Send.Output> {
         description = "Secret Resend token used for authentication."
     )
     @NotNull
-    @PluginProperty(group = "main")
+    @PluginProperty(group = "main", secret = true)
     private Property<String> apiKey;
 
     @Schema(
