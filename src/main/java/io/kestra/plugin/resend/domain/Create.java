@@ -71,7 +71,7 @@ public class Create extends Task implements RunnableTask<Create.Output> {
         description = "Secret Resend token used for authentication."
     )
     @NotNull
-    @PluginProperty(group = "main")
+    @PluginProperty(group = "main", secret = true)
     private Property<String> apiKey;
 
     @Schema(
