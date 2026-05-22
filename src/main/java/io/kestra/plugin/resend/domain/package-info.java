@@ -1,4 +1,5 @@
 @PluginSubGroup(
+    title = "Resend Domain",
     description = "Manage and verify domains with the Resend API.", categories = {
         PluginSubGroup.PluginCategory.BUSINESS
     }
