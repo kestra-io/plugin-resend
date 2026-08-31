@@ -53,7 +53,7 @@ dependencies {
     compileOnly group: "io.kestra", name: "script", version: kestraVersion
 
     // resend
-    api 'com.resend:resend-java:4.19.0'
+    api 'com.resend:resend-java:4.22.0'
 }
 
 
