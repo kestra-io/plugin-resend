@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.resend.Resend;
+import com.resend.core.net.RequestOptions;
 import com.resend.services.emails.model.CreateEmailOptions;
 import com.resend.services.emails.model.CreateEmailResponse;
 import com.resend.services.emails.model.Tag;
@@ -192,7 +193,7 @@ public class Send extends Task implements RunnableTask<Send.Output> {
 
     @Schema(
         title = "Idempotency Key",
-        description = "Optional idempotency key; currently not forwarded to Resend."
+        description = "Optional key used to safely retry a request without accidentally sending the same email twice; sent to Resend as the `Idempotency-Key` header."
     )
     @PluginProperty(group = "connection")
     private Property<String> idempotencyKey;
@@ -239,7 +240,11 @@ public class Send extends Task implements RunnableTask<Send.Output> {
             params.attachments(attachmentResources(runContext.render(attachments).asList(Attachment.class), runContext));
         }
 
-        CreateEmailResponse response = resend.emails().send(params.build());
+        String rIdempotencyKey = runContext.render(idempotencyKey).as(String.class).orElse(null);
+
+        CreateEmailResponse response = rIdempotencyKey != null
+            ? resend.emails().send(params.build(), RequestOptions.builder().setIdempotencyKey(rIdempotencyKey).build())
+            : resend.emails().send(params.build());
 
         return Output.builder()
             .id(response.getId())
